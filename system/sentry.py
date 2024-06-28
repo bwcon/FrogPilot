@@ -193,10 +193,10 @@ def init(project: SentryProject) -> bool:
 
   if short_branch == "FrogPilot-Development":
     env = "Development"
-  elif build_metadata.tested_channel:
-    env = "Staging"
   elif build_metadata.release_channel:
     env = "Release"
+  elif build_metadata.tested_channel:
+    env = "Staging"
   else:
     env = short_branch
 
@@ -211,8 +211,6 @@ def init(project: SentryProject) -> bool:
                   traces_sample_rate=1.0,
                   max_value_length=98304,
                   environment=env)
-
-  build_metadata = get_build_metadata()
 
   sentry_sdk.set_user({"id": HARDWARE.get_serial()})
   sentry_sdk.set_tag("origin", build_metadata.openpilot.git_origin)
