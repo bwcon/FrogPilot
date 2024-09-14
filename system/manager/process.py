@@ -102,6 +102,9 @@ class ManagerProcess(ABC):
     except Exception:
       pass
 
+    if not started and self.started_time > 1:
+      sentry.capture_tmux(params)
+
     dt = time.monotonic() - self.last_watchdog_time / 1e9
     self.started_time = (self.started_time + 1) if started else 0
 

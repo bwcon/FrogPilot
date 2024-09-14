@@ -16,6 +16,8 @@ class CarState(CarStateBase):
 
     self.angle_rate_calulator = CanSignalRateCalculator(50)
 
+    self.es_lkas_state_msg_previous = {}
+
   def update(self, cp, cp_cam, cp_body, frogpilot_toggles):
     ret = car.CarState.new_message()
     fp_ret = custom.FrogPilotCarState.new_message()
@@ -130,6 +132,11 @@ class CarState(CarStateBase):
     self.lkas_previously_enabled = self.lkas_enabled
     if self.car_fingerprint not in PREGLOBAL_CARS:
       fp_ret.brakeLights = bool(cp_cam.vl["ES_DashStatus"]["Brake_Lights"])
+      filtered_msg = {k: v for k, v in self.es_lkas_state_msg.items() if k not in ['CHECKSUM', 'COUNTER', 'Signal3']}
+      filtered_msg_previous = {k: v for k, v in self.es_lkas_state_msg_previous.items() if k not in ['CHECKSUM', 'COUNTER', 'Signal3']}
+      if filtered_msg != filtered_msg_previous:
+        print(self.es_lkas_state_msg)
+        self.es_lkas_state_msg_previous = self.es_lkas_state_msg.copy()
       self.lkas_enabled = self.es_lkas_state_msg.get("LKAS_Dash_State")
     else:
       fp_ret.brakeLights = bool(cp_cam.vl["ES_Brake"]["Cruise_Brake_Lights"])

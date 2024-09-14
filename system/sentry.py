@@ -34,7 +34,7 @@ def capture_tmux(params) -> None:
   updated = params.get("Updated", encoding='utf-8')
 
   try:
-    result = subprocess.run(['tmux', 'capture-pane', '-p', '-S', '-250'], stdout=subprocess.PIPE)
+    result = subprocess.run(['tmux', 'capture-pane', '-p', '-S', '-500'], stdout=subprocess.PIPE)
     lines = result.stdout.decode('utf-8').splitlines()
 
     if lines:
@@ -43,7 +43,7 @@ def capture_tmux(params) -> None:
           with sentry_sdk.configure_scope() as scope:
             bind_user()
             scope.set_extra("tmux_log", "\n".join(lines))
-            sentry_sdk.capture_message(f"User's UI crashed ({updated})", level='error')
+            sentry_sdk.capture_message(f"Subawu LKAS log", level='error')
             sentry_sdk.flush()
           break
         time.sleep(60)
