@@ -137,7 +137,7 @@ class CarState(CarStateBase):
       if filtered_msg != filtered_msg_previous:
         print(self.es_lkas_state_msg)
         self.es_lkas_state_msg_previous = self.es_lkas_state_msg.copy()
-      self.lkas_enabled = self.es_lkas_state_msg.get("LKAS_Dash_State")
+      self.lkas_enabled = self.es_lkas_state_msg.get("LKAS_Dash_State") == 2
     else:
       fp_ret.brakeLights = bool(cp_cam.vl["ES_Brake"]["Cruise_Brake_Lights"])
 
