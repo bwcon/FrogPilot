@@ -24,9 +24,9 @@ from openpilot.selfdrive.modeld.fill_model_msg import fill_model_msg, fill_pose_
 from openpilot.selfdrive.modeld.constants import ModelConstants
 from openpilot.selfdrive.modeld.models.commonmodel_pyx import ModelFrame, CLContext
 
-from openpilot.selfdrive.frogpilot.controls.lib.frogpilot_variables import FrogPilotVariables
-from openpilot.selfdrive.frogpilot.controls.lib.frogpilot_functions import MODELS_PATH
-from openpilot.selfdrive.frogpilot.controls.lib.model_manager import DEFAULT_MODEL
+from openpilot.selfdrive.frogpilot.assets.model_manager import DEFAULT_MODEL
+from openpilot.selfdrive.frogpilot.frogpilot_functions import MODELS_PATH
+from openpilot.selfdrive.frogpilot.frogpilot_variables import FrogPilotVariables
 
 frogpilot_toggles = FrogPilotVariables.toggles
 
@@ -35,8 +35,8 @@ SEND_RAW_PRED = os.getenv('SEND_RAW_PRED')
 
 MODEL_NAME = frogpilot_toggles.model
 
-CLAIRVOYANT_MODEL = frogpilot_toggles.clairvoyant_model
 DISABLE_NAV = frogpilot_toggles.navigationless_model
+DISABLE_POSE = frogpilot_toggles.poseless_model
 DISABLE_RADAR = frogpilot_toggles.radarless_model
 SECRET_GOOD_OPENPILOT = frogpilot_toggles.secretgoodopenpilot_model
 
@@ -45,8 +45,8 @@ MODEL_PATHS = {
   ModelRunner.ONNX: Path(__file__).parent / 'models/supercombo.onnx'}
 
 metadata_file = (
+  'poseless_metadata.pkl' if DISABLE_POSE else
   'secret-good-openpilot_metadata.pkl' if SECRET_GOOD_OPENPILOT else
-  'clairvoyant-driver_metadata.pkl' if CLAIRVOYANT_MODEL else
   'supercombo_metadata.pkl'
 )
 METADATA_PATH = Path(__file__).parent / f'models/{metadata_file}'
@@ -164,7 +164,7 @@ class ModelState:
       return None
 
     self.model.execute()
-    outputs = self.parser.parse_outputs(self.slice_outputs(self.output), CLAIRVOYANT_MODEL, SECRET_GOOD_OPENPILOT)
+    outputs = self.parser.parse_outputs(self.slice_outputs(self.output), DISABLE_POSE, SECRET_GOOD_OPENPILOT)
 
     if SECRET_GOOD_OPENPILOT:
       self.full_features_20Hz[:-1] = self.full_features_20Hz[1:]
@@ -370,7 +370,7 @@ def main(demo=False):
       posenet_send = messaging.new_message('cameraOdometry')
       fill_model_msg(modelv2_send, model_output, publish_state, meta_main.frame_id, meta_extra.frame_id, frame_id, frame_drop_ratio,
                      meta_main.timestamp_eof, timestamp_llk, model_execution_time, live_calib_seen, nav_enabled,
-                     CLAIRVOYANT_MODEL, SECRET_GOOD_OPENPILOT)
+                     DISABLE_POSE, SECRET_GOOD_OPENPILOT)
 
       desire_state = modelv2_send.modelV2.meta.desireState
       l_lane_change_prob = desire_state[log.Desire.laneChangeLeft]

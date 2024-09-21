@@ -8,7 +8,6 @@ FrogPilotNavigationPanel::FrogPilotNavigationPanel(QWidget *parent) : QFrame(par
 
   navigationWidget = new QWidget();
   QVBoxLayout *navigationLayout = new QVBoxLayout(navigationWidget);
-  navigationLayout->setMargin(40);
 
   FrogPilotListWidget *list = new FrogPilotListWidget(navigationWidget);
 
@@ -102,6 +101,7 @@ void FrogPilotNavigationPanel::updateStatuses() {
   const int downloadedFiles = extractFromJson<int>(osmDownloadProgress, "\"downloaded_files\":");
 
   if (paramsMemory.get("OSMDownloadLocations").empty()) {
+    device()->resetInteractiveTimeout(30);
     downloadActive = false;
     updateDownloadedLabel();
     qint64 fileSize = calculateDirectorySize(offlineFolderPath);
@@ -170,6 +170,7 @@ void FrogPilotNavigationPanel::cancelDownload(QWidget *parent) {
 }
 
 void FrogPilotNavigationPanel::downloadMaps() {
+  device()->resetInteractiveTimeout(300);
   params.remove("OSMDownloadProgress");
   paramsMemory.put("OSMDownloadLocations", params.get("MapsSelected"));
   removeOfflineMapsButton->setVisible(true);
