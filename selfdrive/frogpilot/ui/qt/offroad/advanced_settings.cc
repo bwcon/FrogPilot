@@ -87,7 +87,11 @@ FrogPilotAdvancedPanel::FrogPilotAdvancedPanel(FrogPilotSettingsWindow *parent) 
             modifiedLateralTuneKeys.erase("SteerLatAccel");
           }
 
-          toggle->setVisible(modifiedLateralTuneKeys.find(key.c_str()) != modifiedLateralTuneKeys.end());
+          if (modifiedLateralTuneKeys.find(key.c_str()) != modifiedLateralTuneKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       advancedToggle = lateralTuneToggle;
@@ -120,7 +124,11 @@ FrogPilotAdvancedPanel::FrogPilotAdvancedPanel(FrogPilotSettingsWindow *parent) 
             modifiedLongitudinalTuneKeys.erase("LeadDetectionThreshold");
           }
 
-          toggle->setVisible(modifiedLongitudinalTuneKeys.find(key.c_str()) != modifiedLongitudinalTuneKeys.end());
+          if (modifiedLongitudinalTuneKeys.find(key.c_str()) != modifiedLongitudinalTuneKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       advancedToggle = longitudinalTuneToggle;
@@ -131,7 +139,11 @@ FrogPilotAdvancedPanel::FrogPilotAdvancedPanel(FrogPilotSettingsWindow *parent) 
       FrogPilotParamManageControl *customPersonalitiesToggle = new FrogPilotParamManageControl(param, title, desc, icon, this);
       QObject::connect(customPersonalitiesToggle, &FrogPilotParamManageControl::manageButtonClicked, this, [this]() {
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(customDrivingPersonalityKeys.find(key.c_str()) != customDrivingPersonalityKeys.end());
+          if (customDrivingPersonalityKeys.find(key.c_str()) != customDrivingPersonalityKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       advancedToggle = customPersonalitiesToggle;
@@ -146,7 +158,11 @@ FrogPilotAdvancedPanel::FrogPilotAdvancedPanel(FrogPilotSettingsWindow *parent) 
         openSubParentToggle();
 
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(trafficPersonalityKeys.find(key.c_str()) != trafficPersonalityKeys.end());
+          if (trafficPersonalityKeys.find(key.c_str()) != trafficPersonalityKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       advancedToggle = trafficPersonalityToggle;
@@ -158,7 +174,11 @@ FrogPilotAdvancedPanel::FrogPilotAdvancedPanel(FrogPilotSettingsWindow *parent) 
         openSubParentToggle();
 
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(aggressivePersonalityKeys.find(key.c_str()) != aggressivePersonalityKeys.end());
+          if (aggressivePersonalityKeys.find(key.c_str()) != aggressivePersonalityKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       advancedToggle = aggressivePersonalityToggle;
@@ -170,7 +190,11 @@ FrogPilotAdvancedPanel::FrogPilotAdvancedPanel(FrogPilotSettingsWindow *parent) 
         openSubParentToggle();
 
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(standardPersonalityKeys.find(key.c_str()) != standardPersonalityKeys.end());
+          if (standardPersonalityKeys.find(key.c_str()) != standardPersonalityKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       advancedToggle = standardPersonalityToggle;
@@ -182,7 +206,11 @@ FrogPilotAdvancedPanel::FrogPilotAdvancedPanel(FrogPilotSettingsWindow *parent) 
         openSubParentToggle();
 
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(relaxedPersonalityKeys.find(key.c_str()) != relaxedPersonalityKeys.end());
+          if (relaxedPersonalityKeys.find(key.c_str()) != relaxedPersonalityKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       advancedToggle = relaxedPersonalityToggle;
@@ -214,7 +242,11 @@ FrogPilotAdvancedPanel::FrogPilotAdvancedPanel(FrogPilotSettingsWindow *parent) 
             modifiedDeveloperUIKeys.erase("LongitudinalMetrics");
           }
 
-          toggle->setVisible(modifiedDeveloperUIKeys.find(key.c_str()) != modifiedDeveloperUIKeys.end());
+          if (modifiedDeveloperUIKeys.find(key.c_str()) != modifiedDeveloperUIKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       advancedToggle = developerUIToggle;
@@ -266,7 +298,11 @@ FrogPilotAdvancedPanel::FrogPilotAdvancedPanel(FrogPilotSettingsWindow *parent) 
         modelManagementOpen = true;
 
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(modelManagementKeys.find(key.c_str()) != modelManagementKeys.end());
+          if (modelManagementKeys.find(key.c_str()) != modelManagementKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
 
         QString currentModel = QString::fromStdString(params.get("Model")) + ".thneed";
@@ -283,7 +319,11 @@ FrogPilotAdvancedPanel::FrogPilotAdvancedPanel(FrogPilotSettingsWindow *parent) 
         openSubParentToggle();
 
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(modelRandomizerKeys.find(key.c_str()) != modelRandomizerKeys.end());
+          if (modelRandomizerKeys.find(key.c_str()) != modelRandomizerKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       advancedToggle = modelRandomizerToggle;
@@ -359,7 +399,7 @@ FrogPilotAdvancedPanel::FrogPilotAdvancedPanel(FrogPilotSettingsWindow *parent) 
         }
 
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(false);
+          toggle->hide();
         }
       });
       advancedToggle = reinterpret_cast<AbstractControl*>(reviewScoresBtn);
@@ -600,7 +640,11 @@ FrogPilotAdvancedPanel::FrogPilotAdvancedPanel(FrogPilotSettingsWindow *parent) 
             modifiedModelUIKeysKeys.erase("HideLeadMarker");
           }
 
-          toggle->setVisible(modifiedModelUIKeysKeys.find(key.c_str()) != modifiedModelUIKeysKeys.end());
+          if (modifiedModelUIKeysKeys.find(key.c_str()) != modifiedModelUIKeysKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       advancedToggle = modelUIToggle;
@@ -1001,10 +1045,15 @@ void FrogPilotAdvancedPanel::hideToggles() {
                       relaxedPersonalityKeys.find(key.c_str()) != relaxedPersonalityKeys.end() ||
                       standardPersonalityKeys.find(key.c_str()) != standardPersonalityKeys.end() ||
                       trafficPersonalityKeys.find(key.c_str()) != trafficPersonalityKeys.end();
-    toggle->setVisible(!subToggles);
+    if (!subToggles) {
+      toggle->show();
+    } else {
+      toggle->hide();
+    }
   }
 
-  update();
+  layout()->invalidate();
+  layout()->update();
 }
 
 void FrogPilotAdvancedPanel::hideSubToggles() {
@@ -1012,8 +1061,11 @@ void FrogPilotAdvancedPanel::hideSubToggles() {
     for (auto &[key, toggle] : toggles) {
       customPersonalityOpen = false;
 
-      bool isVisible = customDrivingPersonalityKeys.find(key.c_str()) != customDrivingPersonalityKeys.end();
-      toggle->setVisible(isVisible);
+      if (customDrivingPersonalityKeys.find(key.c_str()) != customDrivingPersonalityKeys.end()) {
+        toggle->show();
+      } else {
+        toggle->hide();
+      }
     }
   } else if (modelManagementOpen) {
     for (LabelControl *label : labelControls) {
@@ -1021,12 +1073,16 @@ void FrogPilotAdvancedPanel::hideSubToggles() {
     }
 
     for (auto &[key, toggle] : toggles) {
-      bool isVisible = modelManagementKeys.find(key.c_str()) != modelManagementKeys.end();
-      toggle->setVisible(isVisible);
+      if (modelManagementKeys.find(key.c_str()) != modelManagementKeys.end()) {
+        toggle->show();
+      } else {
+        toggle->hide();
+      }
     }
   }
 
-  update();
+  layout()->invalidate();
+  layout()->update();
 }
 
 void FrogPilotAdvancedPanel::hideSubSubToggles() {
@@ -1036,10 +1092,14 @@ void FrogPilotAdvancedPanel::hideSubSubToggles() {
     }
 
     for (auto &[key, toggle] : toggles) {
-      bool isVisible = modelRandomizerKeys.find(key.c_str()) != modelRandomizerKeys.end();
-      toggle->setVisible(isVisible);
+      if (modelRandomizerKeys.find(key.c_str()) != modelRandomizerKeys.end()) {
+        toggle->show();
+      } else {
+        toggle->hide();
+      }
     }
   }
 
-  update();
+  layout()->invalidate();
+  layout()->update();
 }

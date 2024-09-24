@@ -24,7 +24,11 @@ FrogPilotSoundsPanel::FrogPilotSoundsPanel(FrogPilotSettingsWindow *parent) : Fr
       FrogPilotParamManageControl *alertVolumeControlToggle = new FrogPilotParamManageControl(param, title, desc, icon, this);
       QObject::connect(alertVolumeControlToggle, &FrogPilotParamManageControl::manageButtonClicked, this, [this]() {
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(alertVolumeControlKeys.find(key.c_str()) != alertVolumeControlKeys.end());
+          if (alertVolumeControlKeys.find(key.c_str()) != alertVolumeControlKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       soundsToggle = alertVolumeControlToggle;
@@ -45,7 +49,11 @@ FrogPilotSoundsPanel::FrogPilotSoundsPanel(FrogPilotSettingsWindow *parent) : Fr
             modifiedCustomAlertsKeys.erase("LoudBlindspotAlert");
           }
 
-          toggle->setVisible(modifiedCustomAlertsKeys.find(key.c_str()) != modifiedCustomAlertsKeys.end());
+          if (modifiedCustomAlertsKeys.find(key.c_str()) != modifiedCustomAlertsKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       soundsToggle = customAlertsToggle;
@@ -93,8 +101,13 @@ void FrogPilotSoundsPanel::hideToggles() {
   for (auto &[key, toggle] : toggles) {
     bool subToggles = alertVolumeControlKeys.find(key.c_str()) != alertVolumeControlKeys.end() ||
                       customAlertsKeys.find(key.c_str()) != customAlertsKeys.end();
-    toggle->setVisible(!subToggles);
+    if (!subToggles) {
+      toggle->show();
+    } else {
+      toggle->hide();
+    }
   }
 
-  update();
+  layout()->invalidate();
+  layout()->update();
 }

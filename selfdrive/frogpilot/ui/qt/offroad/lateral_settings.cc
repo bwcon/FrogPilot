@@ -53,7 +53,11 @@ FrogPilotLateralPanel::FrogPilotLateralPanel(FrogPilotSettingsWindow *parent) : 
       FrogPilotParamManageControl *aolToggle = new FrogPilotParamManageControl(param, title, desc, icon, this);
       QObject::connect(aolToggle, &FrogPilotParamManageControl::manageButtonClicked, this, [this]() {
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(aolKeys.find(key.c_str()) != aolKeys.end());
+          if (aolKeys.find(key.c_str()) != aolKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       lateralToggle = aolToggle;
@@ -76,7 +80,11 @@ FrogPilotLateralPanel::FrogPilotLateralPanel(FrogPilotSettingsWindow *parent) : 
             modifiedLateralTuneKeys.erase("NNFFLite");
           }
 
-          toggle->setVisible(modifiedLateralTuneKeys.find(key.c_str()) != modifiedLateralTuneKeys.end());
+          if (modifiedLateralTuneKeys.find(key.c_str()) != modifiedLateralTuneKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       lateralToggle = lateralTuneToggle;
@@ -85,7 +93,11 @@ FrogPilotLateralPanel::FrogPilotLateralPanel(FrogPilotSettingsWindow *parent) : 
       FrogPilotParamManageControl *qolToggle = new FrogPilotParamManageControl(param, title, desc, icon, this);
       QObject::connect(qolToggle, &FrogPilotParamManageControl::manageButtonClicked, this, [this]() {
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(qolKeys.find(key.c_str()) != qolKeys.end());
+          if (qolKeys.find(key.c_str()) != qolKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       lateralToggle = qolToggle;
@@ -100,7 +112,11 @@ FrogPilotLateralPanel::FrogPilotLateralPanel(FrogPilotSettingsWindow *parent) : 
       FrogPilotParamManageControl *laneChangeToggle = new FrogPilotParamManageControl(param, title, desc, icon, this);
       QObject::connect(laneChangeToggle, &FrogPilotParamManageControl::manageButtonClicked, this, [this]() {
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(laneChangeKeys.find(key.c_str()) != laneChangeKeys.end());
+          if (laneChangeKeys.find(key.c_str()) != laneChangeKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       lateralToggle = laneChangeToggle;
@@ -226,14 +242,17 @@ void FrogPilotLateralPanel::updateMetric() {
 
 void FrogPilotLateralPanel::hideToggles() {
   for (auto &[key, toggle] : toggles) {
-    toggle->setVisible(false);
-
     bool subToggles = aolKeys.find(key.c_str()) != aolKeys.end() ||
                       laneChangeKeys.find(key.c_str()) != laneChangeKeys.end() ||
                       lateralTuneKeys.find(key.c_str()) != lateralTuneKeys.end() ||
                       qolKeys.find(key.c_str()) != qolKeys.end();
-    toggle->setVisible(!subToggles);
+    if (!subToggles) {
+      toggle->show();
+    } else {
+      toggle->hide();
+    }
   }
 
-  update();
+  layout()->invalidate();
+  layout()->update();
 }

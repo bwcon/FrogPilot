@@ -66,7 +66,11 @@ FrogPilotLongitudinalPanel::FrogPilotLongitudinalPanel(FrogPilotSettingsWindow *
       FrogPilotParamManageControl *conditionalExperimentalToggle = new FrogPilotParamManageControl(param, title, desc, icon, this);
       QObject::connect(conditionalExperimentalToggle, &FrogPilotParamManageControl::manageButtonClicked, this, [this]() {
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(conditionalExperimentalKeys.find(key.c_str()) != conditionalExperimentalKeys.end());
+          if (conditionalExperimentalKeys.find(key.c_str()) != conditionalExperimentalKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       longitudinalToggle = conditionalExperimentalToggle;
@@ -102,7 +106,11 @@ FrogPilotLongitudinalPanel::FrogPilotLongitudinalPanel(FrogPilotSettingsWindow *
         curveDetectionBtn->setCheckedButton(1, params.getBool("VisionTurnControl"));
 
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(curveSpeedKeys.find(key.c_str()) != curveSpeedKeys.end());
+          if (curveSpeedKeys.find(key.c_str()) != curveSpeedKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       longitudinalToggle = curveControlToggle;
@@ -133,7 +141,11 @@ FrogPilotLongitudinalPanel::FrogPilotLongitudinalPanel(FrogPilotSettingsWindow *
             modifiedExperimentalModeActivationKeys.erase("ExperimentalModeViaLKAS");
           }
 
-          toggle->setVisible(modifiedExperimentalModeActivationKeys.find(key.c_str()) != modifiedExperimentalModeActivationKeys.end());
+          if (modifiedExperimentalModeActivationKeys.find(key.c_str()) != modifiedExperimentalModeActivationKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       longitudinalToggle = experimentalModeActivationToggle;
@@ -142,7 +154,11 @@ FrogPilotLongitudinalPanel::FrogPilotLongitudinalPanel(FrogPilotSettingsWindow *
       FrogPilotParamManageControl *longitudinalTuneToggle = new FrogPilotParamManageControl(param, title, desc, icon, this);
       QObject::connect(longitudinalTuneToggle, &FrogPilotParamManageControl::manageButtonClicked, this, [this]() {
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(longitudinalTuneKeys.find(key.c_str()) != longitudinalTuneKeys.end());
+          if (longitudinalTuneKeys.find(key.c_str()) != longitudinalTuneKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
 
       });
@@ -176,7 +192,11 @@ FrogPilotLongitudinalPanel::FrogPilotLongitudinalPanel(FrogPilotSettingsWindow *
             modifiedQolKeys.erase("MapGears");
           }
 
-          toggle->setVisible(modifiedQolKeys.find(key.c_str()) != modifiedQolKeys.end());
+          if (modifiedQolKeys.find(key.c_str()) != modifiedQolKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
 
       });
@@ -201,7 +221,11 @@ FrogPilotLongitudinalPanel::FrogPilotLongitudinalPanel(FrogPilotSettingsWindow *
       QObject::connect(speedLimitControllerToggle, &FrogPilotParamManageControl::manageButtonClicked, this, [this]() {
         slcOpen = true;
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(speedLimitControllerKeys.find(key.c_str()) != speedLimitControllerKeys.end());
+          if (speedLimitControllerKeys.find(key.c_str()) != speedLimitControllerKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       longitudinalToggle = speedLimitControllerToggle;
@@ -211,8 +235,11 @@ FrogPilotLongitudinalPanel::FrogPilotLongitudinalPanel(FrogPilotSettingsWindow *
         openSubParentToggle();
 
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(speedLimitControllerControlsKeys.find(key.c_str()) != speedLimitControllerControlsKeys.end());
-          update();
+          if (speedLimitControllerControlsKeys.find(key.c_str()) != speedLimitControllerControlsKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       longitudinalToggle = reinterpret_cast<AbstractControl*>(manageSLCControlsBtn);
@@ -232,8 +259,11 @@ FrogPilotLongitudinalPanel::FrogPilotLongitudinalPanel(FrogPilotSettingsWindow *
             modifiedSpeedLimitControllerQOLKeys.erase("ForceMPHDashboard");
           }
 
-          toggle->setVisible(modifiedSpeedLimitControllerQOLKeys.find(key.c_str()) != modifiedSpeedLimitControllerQOLKeys.end());
-          update();
+          if (modifiedSpeedLimitControllerQOLKeys.find(key.c_str()) != modifiedSpeedLimitControllerQOLKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       longitudinalToggle = reinterpret_cast<AbstractControl*>(manageSLCQOLBtn);
@@ -249,8 +279,11 @@ FrogPilotLongitudinalPanel::FrogPilotLongitudinalPanel(FrogPilotSettingsWindow *
         openSubParentToggle();
 
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(speedLimitControllerVisualsKeys.find(key.c_str()) != speedLimitControllerVisualsKeys.end());
-          update();
+          if (speedLimitControllerVisualsKeys.find(key.c_str()) != speedLimitControllerVisualsKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       longitudinalToggle = reinterpret_cast<AbstractControl*>(manageSLCVisualsBtn);
@@ -456,8 +489,6 @@ void FrogPilotLongitudinalPanel::hideToggles() {
   slcOpen = false;
 
   for (auto &[key, toggle] : toggles) {
-    toggle->setVisible(false);
-
     bool subToggles = conditionalExperimentalKeys.find(key.c_str()) != conditionalExperimentalKeys.end() ||
                       curveSpeedKeys.find(key.c_str()) != curveSpeedKeys.end() ||
                       experimentalModeActivationKeys.find(key.c_str()) != experimentalModeActivationKeys.end() ||
@@ -467,19 +498,28 @@ void FrogPilotLongitudinalPanel::hideToggles() {
                       speedLimitControllerControlsKeys.find(key.c_str()) != speedLimitControllerControlsKeys.end() ||
                       speedLimitControllerQOLKeys.find(key.c_str()) != speedLimitControllerQOLKeys.end() ||
                       speedLimitControllerVisualsKeys.find(key.c_str()) != speedLimitControllerVisualsKeys.end();
-    toggle->setVisible(!subToggles);
+    if (!subToggles) {
+      toggle->show();
+    } else {
+      toggle->hide();
+    }
   }
 
-  update();
+  layout()->invalidate();
+  layout()->update();
 }
 
 void FrogPilotLongitudinalPanel::hideSubToggles() {
   if (slcOpen) {
     for (auto &[key, toggle] : toggles) {
-      bool isVisible = speedLimitControllerKeys.find(key.c_str()) != speedLimitControllerKeys.end();
-      toggle->setVisible(isVisible);
+      if (speedLimitControllerKeys.find(key.c_str()) != speedLimitControllerKeys.end()) {
+        toggle->show();
+      } else {
+        toggle->hide();
+      }
     }
   }
 
-  update();
+  layout()->invalidate();
+  layout()->update();
 }

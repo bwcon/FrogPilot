@@ -268,35 +268,39 @@ void FrogPilotVehiclesPanel::hideToggles() {
 
   for (auto &[key, toggle] : toggles) {
     if (toggle) {
-      toggle->setVisible(false);
+      bool shouldShow = true;
 
       if ((!hasOpenpilotLongitudinal || params.getBool("DisableOpenpilotLongitudinal")) && longitudinalKeys.find(key.c_str()) != longitudinalKeys.end()) {
-        continue;
+        shouldShow = false;
       }
 
       if (hasSNG && sngKeys.find(key.c_str()) != sngKeys.end()) {
-        continue;
+        shouldShow = false;
       }
 
       if (!isImpreza && imprezaKeys.find(key.c_str()) != imprezaKeys.end()) {
-        continue;
+        shouldShow = false;
       }
 
       if (!isVolt && voltKeys.find(key.c_str()) != voltKeys.end()) {
-        continue;
+        shouldShow = false;
       }
 
       if (hyundai) {
-        toggle->setVisible(hyundaiKeys.find(key.c_str()) != hyundaiKeys.end());
+        shouldShow = hyundaiKeys.find(key.c_str()) != hyundaiKeys.end();
       } else if (gm) {
-        toggle->setVisible(gmKeys.find(key.c_str()) != gmKeys.end());
+        shouldShow = gmKeys.find(key.c_str()) != gmKeys.end();
       } else if (subaru) {
-        toggle->setVisible(subaruKeys.find(key.c_str()) != subaruKeys.end());
+        shouldShow = subaruKeys.find(key.c_str()) != subaruKeys.end();
       } else if (toyota) {
-        toggle->setVisible(toyotaKeys.find(key.c_str()) != toyotaKeys.end());
+        shouldShow = toyotaKeys.find(key.c_str()) != toyotaKeys.end();
+      }
+
+      if (shouldShow) {
+        toggle->show();
+      } else {
+        toggle->hide();
       }
     }
   }
-
-  update();
 }

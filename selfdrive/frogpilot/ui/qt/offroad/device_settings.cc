@@ -18,7 +18,11 @@ FrogPilotDevicePanel::FrogPilotDevicePanel(FrogPilotSettingsWindow *parent) : Fr
       FrogPilotParamManageControl *deviceManagementToggle = new FrogPilotParamManageControl(param, title, desc, icon, this);
       QObject::connect(deviceManagementToggle, &FrogPilotParamManageControl::manageButtonClicked, this, [this]() {
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(deviceManagementKeys.find(key.c_str()) != deviceManagementKeys.end());
+          if (deviceManagementKeys.find(key.c_str()) != deviceManagementKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       deviceToggle = deviceManagementToggle;
@@ -87,11 +91,13 @@ FrogPilotDevicePanel::FrogPilotDevicePanel(FrogPilotSettingsWindow *parent) : Fr
 
 void FrogPilotDevicePanel::hideToggles() {
   for (auto &[key, toggle] : toggles) {
-    toggle->setVisible(false);
-
-    bool subToggles = deviceManagementKeys.find(key.c_str()) != deviceManagementKeys.end();
-    toggle->setVisible(!subToggles);
+    if (deviceManagementKeys.find(key.c_str()) != deviceManagementKeys.end()) {
+      toggle->show();
+    } else {
+      toggle->hide();
+    }
   }
 
-  update();
+  layout()->invalidate();
+  layout()->update();
 }

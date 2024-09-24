@@ -49,7 +49,11 @@ FrogPilotVisualsPanel::FrogPilotVisualsPanel(FrogPilotSettingsWindow *parent) : 
       FrogPilotParamManageControl *BonusContentToggle = new FrogPilotParamManageControl(param, title, desc, icon, this);
       QObject::connect(BonusContentToggle, &FrogPilotParamManageControl::manageButtonClicked, this, [this]() {
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(bonusContentKeys.find(key.c_str()) != bonusContentKeys.end());
+          if (bonusContentKeys.find(key.c_str()) != bonusContentKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       visualToggle = BonusContentToggle;
@@ -60,7 +64,11 @@ FrogPilotVisualsPanel::FrogPilotVisualsPanel(FrogPilotSettingsWindow *parent) : 
 
         personalizeOpenpilotOpen = true;
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(personalizeOpenpilotKeys.find(key.c_str()) != personalizeOpenpilotKeys.end());
+          if (personalizeOpenpilotKeys.find(key.c_str()) != personalizeOpenpilotKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       visualToggle = personalizeOpenpilotToggle;
@@ -775,7 +783,11 @@ FrogPilotVisualsPanel::FrogPilotVisualsPanel(FrogPilotSettingsWindow *parent) : 
       FrogPilotParamManageControl *customUIToggle = new FrogPilotParamManageControl(param, title, desc, icon, this);
       QObject::connect(customUIToggle, &FrogPilotParamManageControl::manageButtonClicked, this, [this]() {
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(customOnroadUIKeys.find(key.c_str()) != customOnroadUIKeys.end());
+          if (customOnroadUIKeys.find(key.c_str()) != customOnroadUIKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       visualToggle = customUIToggle;
@@ -804,7 +816,11 @@ FrogPilotVisualsPanel::FrogPilotVisualsPanel(FrogPilotSettingsWindow *parent) : 
       FrogPilotParamManageControl *qolToggle = new FrogPilotParamManageControl(param, title, desc, icon, this);
       QObject::connect(qolToggle, &FrogPilotParamManageControl::manageButtonClicked, this, [this]() {
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(qolKeys.find(key.c_str()) != qolKeys.end());
+          if (qolKeys.find(key.c_str()) != qolKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       visualToggle = qolToggle;
@@ -857,7 +873,11 @@ FrogPilotVisualsPanel::FrogPilotVisualsPanel(FrogPilotSettingsWindow *parent) : 
       FrogPilotParamManageControl *screenToggle = new FrogPilotParamManageControl(param, title, desc, icon, this);
       QObject::connect(screenToggle, &FrogPilotParamManageControl::manageButtonClicked, this, [this]() {
         for (auto &[key, toggle] : toggles) {
-          toggle->setVisible(screenKeys.find(key.c_str()) != screenKeys.end());
+          if (screenKeys.find(key.c_str()) != screenKeys.end()) {
+            toggle->show();
+          } else {
+            toggle->hide();
+          }
         }
       });
       visualToggle = screenToggle;
@@ -1026,19 +1046,28 @@ void FrogPilotVisualsPanel::hideToggles() {
                       personalizeOpenpilotKeys.find(key.c_str()) != personalizeOpenpilotKeys.end() ||
                       qolKeys.find(key.c_str()) != qolKeys.end() ||
                       screenKeys.find(key.c_str()) != screenKeys.end();
-    toggle->setVisible(!subToggles);
+    if (!subToggles) {
+      toggle->show();
+    } else {
+      toggle->hide();
+    }
   }
 
-  update();
+  layout()->invalidate();
+  layout()->update();
 }
 
 void FrogPilotVisualsPanel::hideSubToggles() {
   if (personalizeOpenpilotOpen) {
     for (auto &[key, toggle] : toggles) {
-      bool isVisible = bonusContentKeys.find(key.c_str()) != bonusContentKeys.end();
-      toggle->setVisible(isVisible);
+      if (bonusContentKeys.find(key.c_str()) != bonusContentKeys.end()) {
+        toggle->show();
+      } else {
+        toggle->hide();
+      }
     }
   }
 
-  update();
+  layout()->invalidate();
+  layout()->update();
 }
