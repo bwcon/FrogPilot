@@ -505,8 +505,8 @@ void FrogPilotLongitudinalPanel::hideToggles() {
     }
   }
 
-  layout()->invalidate();
-  layout()->update();
+  invalidate();
+  update();
 }
 
 void FrogPilotLongitudinalPanel::hideSubToggles() {
@@ -520,6 +520,6 @@ void FrogPilotLongitudinalPanel::hideSubToggles() {
     }
   }
 
-  layout()->invalidate();
-  layout()->update();
+  invalidate();
+  update();
 }
